@@ -1,0 +1,34 @@
+﻿<Window x:Class="ProjektInzynierskiWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:ProjektInzynierskiWPF"
+        mc:Ignorable="d"
+        Title="Ucieczka z kratownicy"  Height="650" Width="690"
+        
+        
+        x:Name="xMainWindow" ResizeMode="CanResize">
+    <Window.DataContext>
+        <local:MainViewModel/>
+    </Window.DataContext>
+    <DockPanel Height="600" Width="600">
+    <UniformGrid Columns="1">
+        <ItemsControl ItemsSource="{Binding ItemsControllList}" >
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Content="{Binding Value}" IsEnabled="True" Width="{Binding DataContext.CellSize, ElementName=xMainWindow}" Height="{Binding DataContext.CellSize, ElementName=xMainWindow}" Background="{Binding Color}"  Margin="0,0,0,0" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </UniformGrid>
+    </DockPanel>
+</Window>
