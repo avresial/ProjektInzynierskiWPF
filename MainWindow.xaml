@@ -7,28 +7,49 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:ProjektInzynierskiWPF"
         mc:Ignorable="d"
-        Title="Ucieczka z kratownicy"  Height="650" Width="690"
-        
-        
-        x:Name="xMainWindow" ResizeMode="CanResize">
+        Title="Ucieczka z kratownicy"  Height="700" Width="660"
+                
+        x:Name="xMainWindow" ResizeMode="NoResize">
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>
-    <DockPanel Height="600" Width="600">
-    <UniformGrid Columns="1">
-        <ItemsControl ItemsSource="{Binding ItemsControllList}" >
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+         
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="Opcje">
+                    <MenuItem Header="randomizuj" Command="{Binding randomisePoints}"/>
+                    <MenuItem Header="Przykład 1" Command="{Binding SetPointsFromExampleNr1Command}"/>
+                    <MenuItem Header="Przykład 2" Command="{Binding SetPointsFromExampleNr2Command}"/>
+                    <!--<Separator />-->
+                    
+                </MenuItem>
+            </Menu>
+        </DockPanel>
 
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Button Content="{Binding Value}" IsEnabled="True" Width="{Binding DataContext.CellSize, ElementName=xMainWindow}" Height="{Binding DataContext.CellSize, ElementName=xMainWindow}" Background="{Binding Color}"  Margin="0,0,0,0" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </UniformGrid>
-    </DockPanel>
+
+        <DockPanel Grid.Row="1" Height="600" Width="600">
+            <UniformGrid Columns="1">
+                <ItemsControl ItemsSource="{Binding ItemsControllList}" >
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding Value}" IsEnabled="True" Width="{Binding DataContext.CellSize, ElementName=xMainWindow}" Height="{Binding DataContext.CellSize, ElementName=xMainWindow}" Background="{Binding Color}"  Margin="0,0,0,0" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </UniformGrid>
+        </DockPanel>
+    </Grid>
 </Window>
