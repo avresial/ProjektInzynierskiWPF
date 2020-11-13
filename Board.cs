@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,12 @@ namespace ProjektInzynierskiWPF
             set { _Iteration = value; }
         }
 
+        private Random _RandomSeed = new Random();
+        public Random RandomSeed
+        {
+            get { return _RandomSeed; }
+            set { _RandomSeed = value; }
+        }
 
         private int[,] _Matrix;
         public int[,] Matrix
@@ -61,7 +68,6 @@ namespace ProjektInzynierskiWPF
         public Board()
         {
             Iteration = 0;
-
             Deserters = new List<Deserter>();
 
             Size = new int[2];
@@ -83,50 +89,13 @@ namespace ProjektInzynierskiWPF
         public List<int> GetMatrixElements()
         {
             List<int> list = new List<int>();
-           
+
             for (int i = Size[0] - 1; i >= 0; i--)
             {
                 for (int j = 0; j < Size[1]; j++)
-                {
                     list.Add(Matrix[j, i]);
-                  
-                }
-          
             }
-
-
-
             return list;
-        }
-        public void DrawMatrix()
-        {
-            Console.WriteLine("---- - - - - - - - - - - - - - - - - -- -  - -- " + Iteration);
-            for (int i = Size[0] - 1; i >= 0; i--)
-            {
-                for (int j = 0; j < Size[1]; j++)
-                {
-                    Console.Write("   ");
-                    Console.Write(Matrix[j, i]);
-                }
-                Console.WriteLine(); Console.WriteLine();
-            }
-        }
-        public void DrawMatrixMessagebox()
-        {
-            string konsola = "";
-            for (int i = Size[0] - 1; i >= 0; i--)
-            {
-                for (int j = 0; j < Size[1]; j++)
-                {
-                    konsola += "   ";
-                    konsola += Matrix[j, i];
-
-                }
-
-                konsola += "\n";
-            }
-
-
         }
 
         public int CountPathOfOneDeserter(int value)
@@ -144,13 +113,15 @@ namespace ProjektInzynierskiWPF
                 return 0;
             }
         }
-        public void DrawCountOfEachDeserter()
+        public ObservableCollection<String> DrawCountOfEachDeserter()
         {
+            ObservableCollection<String> PathCount = new ObservableCollection<string>();
             for (int i = 0; i < Deserters.Count - 1; i++)
             {
                 int deserterNumber = i + 1;
-                Console.WriteLine("\n Deserter nr. " + deserterNumber + " posiada ścieżkę o długości - " + CountPathOfOneDeserter(deserterNumber) + "\n");
+                PathCount.Add("\n Deserter nr. " + deserterNumber + " posiada ścieżkę o długości - " + CountPathOfOneDeserter(deserterNumber) + "\n");               
             }
+            return PathCount;
         }
 
         public List<Deserter> GetListOfDeserterWhoNeverReachTheirDestination()
@@ -166,6 +137,71 @@ namespace ProjektInzynierskiWPF
             }
 
             return loosers;
+        }
+        public void randomPoints(int amount = 0)
+        {
+            int size = Size[0];
+            if (amount == 0)
+            {
+                amount = size;
+            }
+
+            for (int i = 0; i < amount; i++)
+            {
+                Point rndPoint = new Point(RandomSeed.Next(0, size - 1), RandomSeed.Next(0, size - 1));
+
+                int rndX = RandomSeed.Next(0, size - 1);
+                int rndY = RandomSeed.Next(0, size - 1);
+
+                int tries = 0, maxTries = 10000;
+                while (Matrix[rndX, rndY] != 0 && tries < maxTries)
+                {
+                    rndX = RandomSeed.Next(0, size - 1);
+                    rndY = RandomSeed.Next(0, size - 1);
+                    tries++;
+                }
+
+                if (tries < maxTries)
+                {
+                    AddNewDeserter(new Deserter(new Point(rndX, rndY), this));
+                }
+            }
+        }
+
+        public void SetPointsFromExampleNr1()
+        {
+
+            AddNewDeserter(new Deserter(new Point(0, 3), this));
+
+            AddNewDeserter(new Deserter(new Point(1, 2), this));
+            AddNewDeserter(new Deserter(new Point(1, 3), this));
+            AddNewDeserter(new Deserter(new Point(1, 4), this));
+
+            AddNewDeserter(new Deserter(new Point(3, 2), this));
+            AddNewDeserter(new Deserter(new Point(3, 3), this));
+            AddNewDeserter(new Deserter(new Point(3, 4), this));
+
+            AddNewDeserter(new Deserter(new Point(5, 2), this));
+            AddNewDeserter(new Deserter(new Point(5, 3), this));
+            AddNewDeserter(new Deserter(new Point(5, 4), this));
+        }
+
+        public void SetPointsFromExampleNr2()
+        {
+            AddNewDeserter(new Deserter(new Point(0, 3), this));
+
+            AddNewDeserter(new Deserter(new Point(1, 2), this));
+            AddNewDeserter(new Deserter(new Point(1, 3), this));
+            AddNewDeserter(new Deserter(new Point(1, 4), this));
+
+            AddNewDeserter(new Deserter(new Point(3, 2), this));
+            AddNewDeserter(new Deserter(new Point(3, 3), this));
+            AddNewDeserter(new Deserter(new Point(3, 4), this));
+
+            AddNewDeserter(new Deserter(new Point(5, 2), this));
+            AddNewDeserter(new Deserter(new Point(5, 3), this));
+            AddNewDeserter(new Deserter(new Point(5, 4), this));
+            AddNewDeserter(new Deserter(new Point(4, 3), this));
         }
 
     }

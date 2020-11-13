@@ -19,7 +19,6 @@ namespace ProjektInzynierskiWPF
 
             lista = lista.OrderBy(o => o.Value).ToList();
 
-        //   lista.Reverse();
             if (lista[0].Value != lista[3].Value)
             {
                 switch (lista[0].Type)
@@ -37,12 +36,8 @@ namespace ProjektInzynierskiWPF
                     case "RightFactor":
                         deserter.Move(1, 0);
                         break;
-
-
                 }
             }
-
-            board.DrawMatrix();
         }
 
         public static void IndexFindingPathAlgorithm(Board board)
@@ -62,22 +57,20 @@ namespace ProjektInzynierskiWPF
                         if (deserter.RightFactor == 0 && deserter.LeftFactor == 0 && deserter.TopFactor == 0 && deserter.BottomFactor == 0)
                         {
                             IsGoing = false;
-                            
+
                         }
                         if (tryies > 20)
                         {
                             IsGoing = false;
                         }
                     }
-                    else 
+                    else
                     {
                         IsGoing = false;
                     }
                 }
             }
         }
-
-
     }
     public class Factor
     {

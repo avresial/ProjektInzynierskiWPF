@@ -33,6 +33,8 @@ namespace ProjektInzynierskiWPF
             set { _Value = value; }
         }
 
+        
+
         private List<Point> _Points;
         public List<Point> Points
         {
@@ -63,14 +65,16 @@ namespace ProjektInzynierskiWPF
         public Double LeftFactor;
         public Double RightFactor;
 
-        public Deserter(Point location, Board board, Brush color, int value = 0)
+        public Deserter(Point location, Board board, Brush color = null, int value = 0)
         {
-            //location = new Point(location.X - 1, location.Y - 1); 
+            Board = board;
             Points = new List<Point>();
             OriginPoint = location;
             Color = color;
-            Board = board;
 
+            if (Color == null)
+                Color = new SolidColorBrush(System.Windows.Media.Color.FromRgb((byte)Board.RandomSeed.Next(256), (byte)Board.RandomSeed.Next(256), (byte)Board.RandomSeed.Next(256))); 
+            
             if (value == 0)
             {
                 Value = Board.Deserters.Count + 1;
@@ -156,10 +160,7 @@ namespace ProjektInzynierskiWPF
                     ProssessFactors();
                 }
             }
-        }
+        }      
     }
-
-
-
 }
 

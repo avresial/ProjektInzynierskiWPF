@@ -49,9 +49,8 @@ namespace ProjektInzynierskiWPF
                 RaisePropertyChanged(nameof(Board));
             }
         }
-    
-        private Random _RandomSeed = new Random();
 
+        private Random _RandomSeed = new Random();
         public Random RandomSeed
         {
             get { return _RandomSeed; }
@@ -83,7 +82,8 @@ namespace ProjektInzynierskiWPF
                     if (Board != null)
                     {
                         Board = new Board(15);
-                        randomPoints(Board, 40);
+                        Board.randomPoints(40);
+
                         FactorAlgirithm.IndexFindingPathAlgorithm(Board);
                         drawMatrixOnWindow();
                     }
@@ -105,7 +105,7 @@ namespace ProjektInzynierskiWPF
                     if (Board != null)
                     {
                         Board = new Board(6);
-                        SetPointsFromExampleNr1(Board);
+                        Board.SetPointsFromExampleNr1();
                         FactorAlgirithm.IndexFindingPathAlgorithm(Board);
                         drawMatrixOnWindow();
                     }
@@ -127,7 +127,7 @@ namespace ProjektInzynierskiWPF
                     if (Board != null)
                     {
                         Board = new Board(6);
-                        SetPointsFromExampleNr2(Board);
+                        Board.SetPointsFromExampleNr2();
                         FactorAlgirithm.IndexFindingPathAlgorithm(Board);
                         drawMatrixOnWindow();
                     }
@@ -143,16 +143,11 @@ namespace ProjektInzynierskiWPF
         {
 
             Board = new Board(15);
-            Random rnd = new Random();
+            Board.randomPoints(40);
 
-            
-            //SetPointsFromExampleNr1(board);
-
-            randomPoints(Board, 40);
             FactorAlgirithm.IndexFindingPathAlgorithm(Board);
+
             drawMatrixOnWindow();
-
-
         }
         public void drawMatrixOnWindow()
         {
@@ -171,83 +166,6 @@ namespace ProjektInzynierskiWPF
                     ItemsControllList.Add(boardElement);
                 }
             }
-;
-        }
-
-        public void randomPoints(Board board, int amount = 0)
-        {
-            int size = board.Size[0];
-            if (amount == 0)
-            {
-                amount = size;
-            }
-            Random rnd = RandomSeed;
-            for (int i = 0; i < amount; i++)
-            {
-                Point rndPoint = new Point(rnd.Next(0, size - 1), rnd.Next(0, size - 1));
-
-                int rndX = rnd.Next(0, size - 1);
-                int rndY = rnd.Next(0, size - 1);
-
-                int tries = 0, maxTries = 10000;
-                while (board.Matrix[rndX, rndY] != 0 && tries < maxTries)
-                {
-                    rndX = rnd.Next(0, size - 1);
-                    rndY = rnd.Next(0, size - 1);
-                    tries++;
-                }
-
-                if (tries < maxTries)
-                {
-                    //Brush Color = new SolidColorBrush(System.Windows.Media.Color.FromRgb((byte)rnd.Next(256), (byte)rnd.Next(256), (byte)rnd.Next(256)));
-                    Brush Color = getRandomColor();
-                    board.AddNewDeserter(new Deserter(new Point(rndX, rndY), board, Color));
-                }
-            }
-        }
-
-       
-        public void SetPointsFromExampleNr1(Board board)
-        {
-
-            board.AddNewDeserter(new Deserter(new Point(0, 3), board, getRandomColor()));
-
-            board.AddNewDeserter(new Deserter(new Point(1, 2), board, getRandomColor()));
-            board.AddNewDeserter(new Deserter(new Point(1, 3), board, getRandomColor()));
-            board.AddNewDeserter(new Deserter(new Point(1, 4), board, getRandomColor()));
-
-            board.AddNewDeserter(new Deserter(new Point(3, 2), board, getRandomColor()));
-            board.AddNewDeserter(new Deserter(new Point(3, 3), board, getRandomColor()));
-            board.AddNewDeserter(new Deserter(new Point(3, 4), board, getRandomColor()));
-
-            board.AddNewDeserter(new Deserter(new Point(5, 2), board, getRandomColor()));
-            board.AddNewDeserter(new Deserter(new Point(5, 3), board, getRandomColor()));
-            board.AddNewDeserter(new Deserter(new Point(5, 4), board, getRandomColor()));
-        }
-        public void SetPointsFromExampleNr2(Board board)
-        {
-            board.AddNewDeserter(new Deserter(new Point(0, 3), board, getRandomColor()));
-
-            board.AddNewDeserter(new Deserter(new Point(1, 2), board, getRandomColor()));
-            board.AddNewDeserter(new Deserter(new Point(1, 3), board, getRandomColor()));
-            board.AddNewDeserter(new Deserter(new Point(1, 4), board, getRandomColor()));
-
-            board.AddNewDeserter(new Deserter(new Point(3, 2), board, getRandomColor()));
-            board.AddNewDeserter(new Deserter(new Point(3, 3), board, getRandomColor()));
-            board.AddNewDeserter(new Deserter(new Point(3, 4), board, getRandomColor()));
-
-            board.AddNewDeserter(new Deserter(new Point(5, 2), board, getRandomColor()));
-            board.AddNewDeserter(new Deserter(new Point(5, 3), board, getRandomColor()));
-            board.AddNewDeserter(new Deserter(new Point(5, 4), board, getRandomColor()));
-            board.AddNewDeserter(new Deserter(new Point(4, 3), board, getRandomColor()));
-        }
-        public Brush getRandomColor()
-        {
-            
-            Brush brush = new SolidColorBrush(System.Windows.Media.Color.FromRgb((byte)RandomSeed.Next(256), (byte)RandomSeed.Next(256), (byte)RandomSeed.Next(256)));
-            return brush;
-
-
         }
     }
 }
