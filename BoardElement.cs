@@ -42,7 +42,5 @@ namespace ProjektInzynierskiWPF
             Value = value;
             Color = color;
         }
-
-
     }
 }

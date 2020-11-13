@@ -45,16 +45,32 @@ namespace ProjektInzynierskiWPF
             get { return _Board; }
             set
             {
-                _Board = value;
+                if (_Board == value)
+                    return;
+                _Board = value;               
                 RaisePropertyChanged(nameof(Board));
             }
         }
 
-        private Random _RandomSeed = new Random();
-        public Random RandomSeed
+        private StatisticsItemsControlModel _StatisticsItemsControlModel;
+        public StatisticsItemsControlModel StatisticsItemsControlModel
         {
-            get { return _RandomSeed; }
-            set { _RandomSeed = value; }
+            get { return _StatisticsItemsControlModel; }
+            set { _StatisticsItemsControlModel = value; }
+        }
+
+        private ObservableCollection<StatisticsItemsControlElement> _StatisticsItemsControllList;
+        public ObservableCollection<StatisticsItemsControlElement> StatisticsItemsControllList
+        {
+            get { return _StatisticsItemsControllList; }
+            private set
+            {
+                if (_StatisticsItemsControllList == value)
+                    return;
+
+                _StatisticsItemsControllList = value;
+                RaisePropertyChanged(nameof(StatisticsItemsControllList));
+            }
         }
 
         private ObservableCollection<BoardElement> _ItemsControllList = new ObservableCollection<BoardElement>();
@@ -94,6 +110,7 @@ namespace ProjektInzynierskiWPF
                 }));
             }
         }
+
         private RelayCommand _SetPointsFromExampleNr1Command;
         public RelayCommand SetPointsFromExampleNr1Command
         {
@@ -146,13 +163,23 @@ namespace ProjektInzynierskiWPF
             Board.randomPoints(40);
 
             FactorAlgirithm.IndexFindingPathAlgorithm(Board);
-
+           
             drawMatrixOnWindow();
+        }
+        void fillStatisticsList(Board board)
+        {
+            StatisticsItemsControllList = new ObservableCollection<StatisticsItemsControlElement>();
+
+            foreach (Deserter deserter in board.Deserters)
+            {
+                StatisticsItemsControllList.Add(new StatisticsItemsControlElement(deserter.Value, deserter.Points.Count, deserter.IsFinished));
+            }
         }
         public void drawMatrixOnWindow()
         {
             ItemsControllList.Clear();
             CellSize = (WindowSize) / Board.Size[0];
+            fillStatisticsList(Board);
             foreach (int value in Board.GetMatrixElements())
             {
                 if (value != 0)

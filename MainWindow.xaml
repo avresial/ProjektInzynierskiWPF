@@ -7,21 +7,22 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:ProjektInzynierskiWPF"
         mc:Ignorable="d"
-        Title="Ucieczka z kratownicy"  Height="700" Width="660"
+        Title="Ucieczka z kratownicy"  Height="700" Width="950"
                 
         x:Name="xMainWindow" ResizeMode="NoResize">
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>
-    <Grid>
+    <Grid Margin="0,0,-255,0">
         <Grid.ColumnDefinitions>
-         
+            <ColumnDefinition Width="660"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0">
+        <DockPanel Grid.ColumnSpan="2" Grid.Row="0">
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="Opcje">
                     <MenuItem Header="randomizuj" Command="{Binding randomisePoints}"/>
@@ -33,8 +34,7 @@
             </Menu>
         </DockPanel>
 
-
-        <DockPanel Grid.Row="1" Height="600" Width="600">
+        <DockPanel Grid.Column="0"  Grid.Row="1" Height="600" Width="600">
             <UniformGrid Columns="1">
                 <ItemsControl ItemsSource="{Binding ItemsControllList}" >
                     <ItemsControl.ItemsPanel>
@@ -51,5 +51,8 @@
                 </ItemsControl>
             </UniformGrid>
         </DockPanel>
+        
+        <local:StatisticsItemsControlView Grid.Column="1"  Grid.Row="1"></local:StatisticsItemsControlView>
+
     </Grid>
 </Window>

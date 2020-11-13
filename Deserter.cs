@@ -32,8 +32,15 @@ namespace ProjektInzynierskiWPF
             get { return _Value; }
             set { _Value = value; }
         }
-
         
+        public bool IsFinished
+        {
+            get {
+                if (TopFactor == 0 && BottomFactor == 0)
+                    return true;               
+                return false;
+            }         
+        }    
 
         private List<Point> _Points;
         public List<Point> Points
