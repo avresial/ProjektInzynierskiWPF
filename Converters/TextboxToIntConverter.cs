@@ -18,10 +18,13 @@ namespace ProjektInzynierskiWPF.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if ((string)value != "")
+            {
+                int newValue = int.Parse((string)value);
 
-            int newValue = int.Parse((string)value);
-
-            return newValue;
+                return newValue;
+            }
+            return -1;
         }
     }
 }

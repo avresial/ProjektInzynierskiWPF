@@ -225,6 +225,7 @@ namespace ProjektInzynierskiWPF
                 }));
             }
         }
+
         private RelayCommand _SetPointsFromExampleNr2Command;
         public RelayCommand SetPointsFromExampleNr2Command
         {
@@ -252,9 +253,9 @@ namespace ProjektInzynierskiWPF
         {
 
             Board = new Board(15);
-            Board.randomPoints(40);
+            Board.SetStartPoints();
 
-            FactorAlgirithm.IndexFindingPathAlgorithm(Board);
+           // FactorAlgirithm.IndexFindingPathAlgorithm(Board);
            
             drawMatrixOnWindow();
         }

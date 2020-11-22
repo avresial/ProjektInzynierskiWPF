@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using Point = System.Drawing.Point;
 
 namespace ProjektInzynierskiWPF
@@ -92,7 +93,7 @@ namespace ProjektInzynierskiWPF
             Matrix = new int[Size[0], Size[1]];
         }
 
-        public void CleanBoard() 
+        public void CleanBoard()
         {
             for (int i = Size[0] - 1; i >= 0; i--)
             {
@@ -105,21 +106,24 @@ namespace ProjektInzynierskiWPF
 
         public void AddNewDeserter(Deserter deserter)
         {
-            var TMP = Deserters.Where(x => x.OriginPoint == deserter.OriginPoint) ;
-            if (TMP.Count() < 1)
+            if (deserter.OriginPoint.X < Size[0] && deserter.OriginPoint.X >= 0 && deserter.OriginPoint.Y < Size[1] && deserter.OriginPoint.Y >= 0 )
             {
-                Iteration++;
-                Deserters.Add(deserter);
-                foreach (var item in _Deserters)
+                var TMP = Deserters.Where(x => x.OriginPoint == deserter.OriginPoint);
+                if (TMP.Count() < 1)
                 {
-                    this.Matrix[item.OriginPoint.X, item.OriginPoint.Y] = item.Value;
+                    Iteration++;
+                    Deserters.Add(deserter);
+                    foreach (var item in _Deserters)
+                    {
+                        this.Matrix[item.OriginPoint.X, item.OriginPoint.Y] = item.Value;
+                    }
                 }
-            }
-            else 
-            {
-                string message = "Wybrane miejsce jest już zajęte.";
-                string title = "Błąd";
-                MessageBox.Show(message, title);
+                else
+                {
+                    string message = "Wybrane miejsce jest już zajęte.";
+                    string title = "Błąd";
+                    MessageBox.Show(message, title);
+                }
             }
         }
         public List<int> GetMatrixElements()
@@ -240,6 +244,43 @@ namespace ProjektInzynierskiWPF
             AddNewDeserter(new Deserter(new Point(4, 3), this));
         }
 
+        public void SetStartPoints()
+        {
+            byte R = 224;
+            byte G = 47;
+            byte B = 88;
+
+            AddNewDeserter(new Deserter(new Point(3, 10), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+            AddNewDeserter(new Deserter(new Point(4, 10), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+            AddNewDeserter(new Deserter(new Point(3, 9), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+            AddNewDeserter(new Deserter(new Point(4, 9), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+
+            AddNewDeserter(new Deserter(new Point(10, 10), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+            AddNewDeserter(new Deserter(new Point(11, 10), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+            AddNewDeserter(new Deserter(new Point(10, 9), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+            AddNewDeserter(new Deserter(new Point(11, 9), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+
+            AddNewDeserter(new Deserter(new Point(3, 6), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+            AddNewDeserter(new Deserter(new Point(4, 6), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+            AddNewDeserter(new Deserter(new Point(5, 6), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+            AddNewDeserter(new Deserter(new Point(6, 6), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+            AddNewDeserter(new Deserter(new Point(7, 6), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+            AddNewDeserter(new Deserter(new Point(8, 6), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+            AddNewDeserter(new Deserter(new Point(9, 6), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+            AddNewDeserter(new Deserter(new Point(10, 6), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+            AddNewDeserter(new Deserter(new Point(11, 6), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+
+            AddNewDeserter(new Deserter(new Point(3, 5), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+            AddNewDeserter(new Deserter(new Point(4, 4), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+            AddNewDeserter(new Deserter(new Point(5, 3), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+            AddNewDeserter(new Deserter(new Point(6, 3), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+            AddNewDeserter(new Deserter(new Point(7, 3), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+            AddNewDeserter(new Deserter(new Point(8, 3), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+            AddNewDeserter(new Deserter(new Point(9, 3), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+            AddNewDeserter(new Deserter(new Point(10, 4), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+            AddNewDeserter(new Deserter(new Point(11, 5), this, new SolidColorBrush(System.Windows.Media.Color.FromRgb(R, G, B))));
+
+        }
     }
 }
 

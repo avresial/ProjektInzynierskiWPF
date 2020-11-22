@@ -18,7 +18,7 @@ namespace ProjektInzynierskiWPF
             lista.Add(new Factor(deserter.RightFactor, "RightFactor"));
 
             lista = lista.OrderBy(o => o.Value).ToList();
-            
+
             if (lista[0].Value != lista[3].Value)
             {
                 switch (lista[0].Type)
@@ -89,7 +89,8 @@ namespace ProjektInzynierskiWPF
                     }
                 }
             }
-            board.AlreadyCalculated = true;
+            if (board.Deserters.Count() > 0)
+                board.AlreadyCalculated = true;
         }
     }
     public class Factor
