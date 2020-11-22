@@ -7,7 +7,7 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:ProjektInzynierskiWPF"
         mc:Ignorable="d"
-        Title="Ucieczka z kratownicy"  Height="700" Width="950"
+        Title="Ucieczka z kratownicy"  Height="700" Width="1150"
                 
         x:Name="xMainWindow" ResizeMode="NoResize">
     <Window.DataContext>
@@ -15,6 +15,7 @@
     </Window.DataContext>
     <Grid Margin="0,0,-255,0">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
             <ColumnDefinition Width="660"></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
@@ -22,10 +23,14 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <DockPanel Grid.ColumnSpan="2" Grid.Row="0">
+        <DockPanel Grid.ColumnSpan="3" Grid.Row="0">
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="Opcje">
-                    <MenuItem Header="randomizuj" Command="{Binding randomisePoints}"/>
+
+
+                    <MenuItem Header="Wyczyść tablice" Command="{Binding CleanBoard}"/>
+                    <MenuItem Header="Rozwiąż układ" Command="{Binding FindPaths}"/>
+                    <MenuItem Header="Wylosuj punkty" Command="{Binding randomisePoints}"/>
                     <MenuItem Header="Przykład 1" Command="{Binding SetPointsFromExampleNr1Command}"/>
                     <MenuItem Header="Przykład 2" Command="{Binding SetPointsFromExampleNr2Command}"/>
                     <!--<Separator />-->
@@ -34,7 +39,9 @@
             </Menu>
         </DockPanel>
 
-        <DockPanel Grid.Column="0"  Grid.Row="1" Height="600" Width="600">
+        <local:AddingDesserterPanel Grid.Column="0"  Grid.Row="1" Margin="5,5,5,5"></local:AddingDesserterPanel>
+        
+        <DockPanel Grid.Column="1"  Grid.Row="1" Height="600" Width="600">
             <UniformGrid Columns="1">
                 <ItemsControl ItemsSource="{Binding ItemsControllList}" >
                     <ItemsControl.ItemsPanel>
@@ -52,7 +59,7 @@
             </UniformGrid>
         </DockPanel>
         
-        <local:StatisticsItemsControlView Grid.Column="1"  Grid.Row="1"></local:StatisticsItemsControlView>
+        <local:StatisticsItemsControlView Grid.Column="2"  Grid.Row="1"></local:StatisticsItemsControlView>
 
     </Grid>
 </Window>

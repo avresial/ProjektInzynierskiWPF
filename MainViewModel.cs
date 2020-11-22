@@ -39,6 +39,27 @@ namespace ProjektInzynierskiWPF
             }
         }
 
+        private int _NewDeserterLocationX;
+        public int NewDeserterLocationX
+        {
+            get { return _NewDeserterLocationX; }
+            set
+            {
+                _NewDeserterLocationX = value;
+                RaisePropertyChanged(nameof(NewDeserterLocationX));
+            }
+        }
+
+        private int _NewDeserterLocationY;
+        public int NewDeserterLocationY
+        {
+            get { return _NewDeserterLocationY; }
+            set
+            {
+                _NewDeserterLocationY = value;
+            }
+        }
+
         private Board _Board;
         public Board Board
         {
@@ -100,7 +121,78 @@ namespace ProjektInzynierskiWPF
                         Board = new Board(15);
                         Board.randomPoints(40);
 
-                        FactorAlgirithm.IndexFindingPathAlgorithm(Board);
+                        Board.AlreadyCalculated = false;
+                      
+                        drawMatrixOnWindow();
+                    }
+                },
+                () =>
+                {
+                    return true;
+                }));
+            }
+        }
+
+        private RelayCommand _FindPaths;
+        public RelayCommand FindPaths
+        {
+            get
+            {
+                return _FindPaths ?? (_FindPaths = new RelayCommand(
+                () =>
+                {
+                    if (Board != null)
+                    {
+                        if (Board != null && Board.AlreadyCalculated == false)
+                        {
+                            FactorAlgirithm.IndexFindingPathAlgorithm(Board);
+                            drawMatrixOnWindow();
+                        }
+                        
+                    }
+                },
+                () =>
+                {
+                    return true;
+                }));
+            }
+        }
+
+        private RelayCommand _AddDesserter;
+        public RelayCommand AddDesserter
+        {
+            get
+            {
+                return _AddDesserter ?? (_AddDesserter = new RelayCommand(
+                () =>
+                {
+                    if (Board != null)
+                    {
+                        Deserter deserter = new Deserter(new Point(NewDeserterLocationX, NewDeserterLocationY), Board);
+
+                        Board.AddNewDeserter(deserter);
+                        drawMatrixOnWindow();
+                    }
+                },
+                () =>
+                {
+                    return true;
+                }));
+            }
+        }
+
+        private RelayCommand _CleanBoard;
+        public RelayCommand CleanBoard
+        {
+            get
+            {
+                return _CleanBoard ?? (_CleanBoard = new RelayCommand(
+                () =>
+                {
+                    if (Board != null)
+                    {
+                        Board.CleanBoard();
+                        Board.AlreadyCalculated = false;
                         drawMatrixOnWindow();
                     }
                 },

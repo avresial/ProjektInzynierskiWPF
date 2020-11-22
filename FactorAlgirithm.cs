@@ -18,8 +18,27 @@ namespace ProjektInzynierskiWPF
             lista.Add(new Factor(deserter.RightFactor, "RightFactor"));
 
             lista = lista.OrderBy(o => o.Value).ToList();
-
+            
             if (lista[0].Value != lista[3].Value)
+            {
+                switch (lista[0].Type)
+                {
+
+                    case "BottomFactor":
+                        deserter.Move(0, -1);
+                        break;
+                    case "TopFactor":
+                        deserter.Move(0, 1);
+                        break;
+                    case "LeftFactor":
+                        deserter.Move(-1, 0);
+                        break;
+                    case "RightFactor":
+                        deserter.Move(1, 0);
+                        break;
+                }
+            }
+            if (lista[0].Value == lista[3].Value && lista[0].Value != 0 && lista[0].Value != 1)
             {
                 switch (lista[0].Type)
                 {
@@ -70,6 +89,7 @@ namespace ProjektInzynierskiWPF
                     }
                 }
             }
+            board.AlreadyCalculated = true;
         }
     }
     public class Factor

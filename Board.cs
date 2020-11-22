@@ -1,16 +1,29 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows;
+using Point = System.Drawing.Point;
 
 namespace ProjektInzynierskiWPF
 {
-    public class Board
+    public class Board : ViewModelBase
     {
+
+        private bool _AlreadyCalculated;
+        public bool AlreadyCalculated
+        {
+            get { return _AlreadyCalculated; }
+            set
+            {
+                _AlreadyCalculated = value;
+                RaisePropertyChanged(nameof(AlreadyCalculated));
+            }
+        }
 
         private int _Iteration;
         public int Iteration
@@ -74,16 +87,39 @@ namespace ProjektInzynierskiWPF
             Size[0] = 3;
             Size[1] = 3;
 
+            AlreadyCalculated = false;
+
             Matrix = new int[Size[0], Size[1]];
+        }
+
+        public void CleanBoard() 
+        {
+            for (int i = Size[0] - 1; i >= 0; i--)
+            {
+                for (int j = 0; j < Size[1]; j++)
+                    Matrix[j, i] = 0;
+            }
+            Iteration = 0;
+            Deserters.Clear();
         }
 
         public void AddNewDeserter(Deserter deserter)
         {
-            Iteration++;
-            Deserters.Add(deserter);
-            foreach (var item in _Deserters)
+            var TMP = Deserters.Where(x => x.OriginPoint == deserter.OriginPoint) ;
+            if (TMP.Count() < 1)
             {
-                this.Matrix[item.OriginPoint.X, item.OriginPoint.Y] = item.Value;
+                Iteration++;
+                Deserters.Add(deserter);
+                foreach (var item in _Deserters)
+                {
+                    this.Matrix[item.OriginPoint.X, item.OriginPoint.Y] = item.Value;
+                }
+            }
+            else 
+            {
+                string message = "Wybrane miejsce jest już zajęte.";
+                string title = "Błąd";
+                MessageBox.Show(message, title);
             }
         }
         public List<int> GetMatrixElements()
@@ -119,7 +155,7 @@ namespace ProjektInzynierskiWPF
             for (int i = 0; i < Deserters.Count - 1; i++)
             {
                 int deserterNumber = i + 1;
-                PathCount.Add("\n Deserter nr. " + deserterNumber + " posiada ścieżkę o długości - " + CountPathOfOneDeserter(deserterNumber) + "\n");               
+                PathCount.Add("\n Deserter nr. " + deserterNumber + " posiada ścieżkę o długości - " + CountPathOfOneDeserter(deserterNumber) + "\n");
             }
             return PathCount;
         }
