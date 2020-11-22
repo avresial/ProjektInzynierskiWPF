@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="ProjektInzynierskiWPF.RandomizationSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProjektInzynierskiWPF"
+             xmlns:Converters="clr-namespace:ProjektInzynierskiWPF.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="110" d:DesignWidth="200">
+    
+    <UserControl.Resources>
+        <Converters:BoleanConverter x:Key="BoleanConverter" />
+        <Converters:TextboxToIntConverter x:Key="TextboxToIntConverter" />
+    </UserControl.Resources>
+
+    <Grid>
+        <StackPanel HorizontalAlignment="Left" Height="110" VerticalAlignment="Top" Width="200">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    
+                </Grid.RowDefinitions>
+
+                <Label Grid.ColumnSpan="2" Content="Losuj punkty" Grid.Row="0" Grid.Column="0"></Label>
+
+                <Label Content="Ilość losowanych punktów" Grid.Row="1" Grid.Column="0"></Label>
+                <TextBox Width="40" Text="{Binding Path=AmountOfNewRandomPoints, Converter={StaticResource TextboxToIntConverter}}" Height="20" Grid.Row="1" Grid.Column="1" Margin="5,5,5,5"></TextBox>
+
+                <Button Command="{Binding randomisePoints}" IsEnabled = "{Binding Path=Board.AlreadyCalculated, Converter={StaticResource BoleanConverter}}" Grid.Row="3" Grid.ColumnSpan="2" Content="Dodaj punkty"></Button>
+            </Grid>
+
+        </StackPanel>
+    </Grid>
+</UserControl>

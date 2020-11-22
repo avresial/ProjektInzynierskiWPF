@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+        xmlns:Converters="clr-namespace:ProjektInzynierskiWPF.Converters"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:ProjektInzynierskiWPF"
         mc:Ignorable="d"
@@ -13,6 +14,13 @@
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>
+
+    <Window.Resources>
+        <Converters:BoleanConverter x:Key="BoleanConverter" />
+        <Converters:TextboxToIntConverter x:Key="TextboxToIntConverter" />
+    </Window.Resources>
+
+
     <Grid Margin="0,0,-255,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -26,21 +34,28 @@
         <DockPanel Grid.ColumnSpan="3" Grid.Row="0">
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="Opcje">
-
-
-                    <MenuItem Header="Wyczyść tablice" Command="{Binding CleanBoard}"/>
-                    <MenuItem Header="Rozwiąż układ" Command="{Binding FindPaths}"/>
-                    <MenuItem Header="Wylosuj punkty" Command="{Binding randomisePoints}"/>
+                   
                     <MenuItem Header="Przykład 1" Command="{Binding SetPointsFromExampleNr1Command}"/>
                     <MenuItem Header="Przykład 2" Command="{Binding SetPointsFromExampleNr2Command}"/>
-                    <!--<Separator />-->
-                    
+
                 </MenuItem>
             </Menu>
         </DockPanel>
-
-        <local:AddingDesserterPanel Grid.Column="0"  Grid.Row="1" Margin="5,5,5,5"></local:AddingDesserterPanel>
-        
+        <Grid Grid.Column="0" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Button Grid.Row="0" Content="Rozwiąż układ" Command="{Binding FindPaths}" Margin="0,20,0,20" IsEnabled = "{Binding Path=Board.AlreadyCalculated, Converter={StaticResource BoleanConverter}}"></Button>
+            <Button Grid.Row="1" Content="Wyczyść tablice" Command="{Binding CleanBoard}" Margin="0,20,0,20"></Button>
+            <local:AddingDesserterPanel Grid.Row="2"  Margin="5,10,5,10"></local:AddingDesserterPanel>
+            <local:RandomizationSettings Grid.Row="3"  Margin="5,10,5,10"></local:RandomizationSettings>
+            <local:BoardSizeSelection  Grid.Row="4" Margin="5,10,5,10"></local:BoardSizeSelection>
+        </Grid>
+               
         <DockPanel Grid.Column="1"  Grid.Row="1" Height="600" Width="600">
             <UniformGrid Columns="1">
                 <ItemsControl ItemsSource="{Binding ItemsControllList}" >
@@ -58,6 +73,8 @@
                 </ItemsControl>
             </UniformGrid>
         </DockPanel>
+
+        
         
         <local:StatisticsItemsControlView Grid.Column="2"  Grid.Row="1"></local:StatisticsItemsControlView>
 

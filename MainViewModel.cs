@@ -60,6 +60,26 @@ namespace ProjektInzynierskiWPF
             }
         }
 
+        private int _NewBoardSize;
+        public int NewBoardSize
+        {
+            get { return _NewBoardSize; }
+            set
+            {
+                _NewBoardSize = value;
+            }
+        }
+
+        private int _AmountOfNewRandomPoints = 1;
+        public int AmountOfNewRandomPoints
+        {
+            get { return _AmountOfNewRandomPoints; }
+            set
+            {
+                _AmountOfNewRandomPoints = value;
+            }
+        }
+
         private Board _Board;
         public Board Board
         {
@@ -118,11 +138,17 @@ namespace ProjektInzynierskiWPF
                 {
                     if (Board != null)
                     {
+                        Board.randomPoints(AmountOfNewRandomPoints);
+                        Board.AlreadyCalculated = false;
+
+                        drawMatrixOnWindow();
+                    }
+                    else {
                         Board = new Board(15);
-                        Board.randomPoints(40);
+                        Board.randomPoints(AmountOfNewRandomPoints);
 
                         Board.AlreadyCalculated = false;
-                      
+
                         drawMatrixOnWindow();
                     }
                 },
@@ -171,6 +197,43 @@ namespace ProjektInzynierskiWPF
                         Deserter deserter = new Deserter(new Point(NewDeserterLocationX, NewDeserterLocationY), Board);
 
                         Board.AddNewDeserter(deserter);
+                        drawMatrixOnWindow();
+                    }
+                },
+                () =>
+                {
+                    return true;
+                }));
+            }
+        }
+
+        private RelayCommand _ResizeBoard;
+        public RelayCommand ResizeBoard
+        {
+            get
+            {
+                return _ResizeBoard ?? (_ResizeBoard = new RelayCommand(
+                () =>
+                {
+                    if (Board != null)
+                    {
+
+                        if (NewBoardSize > 0 && NewBoardSize <= Board.MaxSize)
+                        {
+                            Board = new Board(NewBoardSize);
+                        }
+                        else 
+                        {
+                            string message =    "Przekroczono maksymalny rozmiar  \n";
+                            message +=          "Poprawny rozmiar mieści się w zakresie \n\n";
+                            message +=          "                              0 - " + Board.MaxSize;
+
+                            string title = "Błąd";
+                            MessageBox.Show(message, title);
+                        }
+                        
+
+                  
                         drawMatrixOnWindow();
                     }
                 },

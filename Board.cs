@@ -14,6 +14,7 @@ namespace ProjektInzynierskiWPF
 {
     public class Board : ViewModelBase
     {
+        public const int MaxSize = 40;
 
         private bool _AlreadyCalculated;
         public bool AlreadyCalculated
@@ -188,10 +189,10 @@ namespace ProjektInzynierskiWPF
 
             for (int i = 0; i < amount; i++)
             {
-                Point rndPoint = new Point(RandomSeed.Next(0, size - 1), RandomSeed.Next(0, size - 1));
+                Point rndPoint = new Point(RandomSeed.Next(0, size), RandomSeed.Next(0, size));
 
-                int rndX = RandomSeed.Next(0, size - 1);
-                int rndY = RandomSeed.Next(0, size - 1);
+                int rndX = RandomSeed.Next(0, size);
+                int rndY = RandomSeed.Next(0, size);
 
                 int tries = 0, maxTries = 10000;
                 while (Matrix[rndX, rndY] != 0 && tries < maxTries)

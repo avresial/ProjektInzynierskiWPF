@@ -33,7 +33,7 @@
                 <TextBox IsEnabled = "{Binding Path=Board.AlreadyCalculated, Converter={StaticResource BoleanConverter}}" Text="{Binding Path=NewDeserterLocationX, Converter={StaticResource TextboxToIntConverter}}" Height="20" Grid.Row="1" Grid.Column="1" Margin="5,5,5,5"></TextBox>
                 <Label Content="Y" Grid.Row="2" Grid.Column="0"></Label>
                 <TextBox IsEnabled = "{Binding Path=Board.AlreadyCalculated, Converter={StaticResource BoleanConverter}}" Text="{Binding Path=NewDeserterLocationY, Converter={StaticResource TextboxToIntConverter}}" Height="20" Grid.Row="2" Grid.Column="1" Margin="5,5,5,5"></TextBox>
-                
+
                 <Button Command="{Binding AddDesserter}" IsEnabled = "{Binding Path=Board.AlreadyCalculated, Converter={StaticResource BoleanConverter}}" Grid.Row="3" Grid.ColumnSpan="2" Content="Dodaj"></Button>
             </Grid>
 
